@@ -1,0 +1,32 @@
+# Deployment Containers Run With Default Capabilities
+# Deployment Containers Set With HostPath Volume Mounted
+# Deployment HostPort Not Set To 0
+# Deployment Container Image With Latest Tag
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-deployment3
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-deployment3
+  template:
+    metadata:
+      labels:
+        app: vulnerable-deployment3
+    spec:
+      containers:
+      - name: vuln-container3
+        image: nginx
+        ports:
+        - containerPort: 81
+          hostPort: 8081
+        volumeMounts:
+        - name: host-os
+          mountPath: /host-os
+      volumes:
+      - name: host-os
+        hostPath:
+          path: /etc
+

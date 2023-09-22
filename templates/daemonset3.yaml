@@ -1,0 +1,31 @@
+# DaemonSets Run With Default Capabilities
+# DaemonSet Containers Set With HostPath Volume Mounted
+# DaemonSet Has HostPort Not Set To 0
+# DaemonSet's Container Image With Latest Tag
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vulnerable-daemonset3
+spec:
+  selector:
+    matchLabels:
+      app: vulnerable-daemonset3
+  template:
+    metadata:
+      labels:
+        app: vulnerable-daemonset3
+    spec:
+      containers:
+      - name: vuln-container3
+        image: nginx
+        ports:
+        - containerPort: 82
+          hostPort: 8082
+        volumeMounts:
+        - name: host-os
+          mountPath: /host-os
+      volumes:
+      - name: host-os
+        hostPath:
+          path: /etc
+

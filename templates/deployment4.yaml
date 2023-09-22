@@ -1,0 +1,28 @@
+# Deployment Container Memory Limit Not Set
+# Deployment Container Memory Request Not Specified
+# Deployment Having Pod Is Mounting A Host-Sensitive OS Directory
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-deployment4
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-deployment4
+  template:
+    metadata:
+      labels:
+        app: vulnerable-deployment4
+    spec:
+      containers:
+      - name: vuln-container4
+        image: nginx
+        volumeMounts:
+        - name: sensitive-os-dir
+          mountPath: /sensitive
+      volumes:
+      - name: sensitive-os-dir
+        hostPath:
+          path: /etc/kubernetes
+

@@ -1,0 +1,23 @@
+# DaemonSet Run With allowPrivilegeEscalation Flag Enabled
+# DaemonSet's Default AppArmor Profile Not Set
+# DaemonSet Has Pods automountServiceAccountToken Not Set To False
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vulnerable-daemonset1
+spec:
+  selector:
+    matchLabels:
+      app: vulnerable-daemonset1
+  template:
+    metadata:
+      labels:
+        app: vulnerable-daemonset1
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - name: vuln-container1
+        image: nginx
+        securityContext:
+          allowPrivilegeEscalation: true
+

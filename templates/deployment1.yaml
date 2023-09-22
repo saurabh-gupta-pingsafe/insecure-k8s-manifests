@@ -1,0 +1,24 @@
+# Deployment Containers Run With AllowPrivilegeEscalation Flag Enabled
+# Deployment Default AppArmor Profile Not Set
+# Deployment pods automountServiceAccountToken not set to false
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-deployment1
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-deployment1
+  template:
+    metadata:
+      labels:
+        app: vulnerable-deployment1
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - name: vuln-container1
+        image: nginx
+        securityContext:
+          allowPrivilegeEscalation: true
+

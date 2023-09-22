@@ -1,0 +1,27 @@
+# DaemonSet Container Memory Limit Not Set
+# DaemonSet Container Memory Request Not Specified
+# Daemonset Pod Is Mounting A Host-Sensitive OS Directory
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vulnerable-daemonset4
+spec:
+  selector:
+    matchLabels:
+      app: vulnerable-daemonset4
+  template:
+    metadata:
+      labels:
+        app: vulnerable-daemonset4
+    spec:
+      containers:
+      - name: vuln-container4
+        image: nginx
+        volumeMounts:
+        - name: sensitive-os-dir
+          mountPath: /sensitive
+      volumes:
+      - name: sensitive-os-dir
+        hostPath:
+          path: /etc/kubernetes
+

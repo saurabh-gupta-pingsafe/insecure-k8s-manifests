@@ -1,0 +1,4 @@
+apiVersion: v2
+name: vulnerable-chart
+description: A Helm chart with intentionally vulnerable k8s resources.
+version: 0.1.0

@@ -1,0 +1,29 @@
+# StatefulSet Container Memory Limit Not Set
+# StatefulSet Container Memory Request Not Specified
+# StatefulSet Pod Is Mounting A Host-Sensitive OS Directory
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vulnerable-ss3
+spec:
+  serviceName: "vuln-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-ss3
+  template:
+    metadata:
+      labels:
+        app: vulnerable-ss3
+    spec:
+      containers:
+      - name: vuln-container3
+        image: nginx
+        volumeMounts:
+        - name: sensitive-os-dir
+          mountPath: /sensitive
+      volumes:
+      - name: sensitive-os-dir
+        hostPath:
+          path: /etc/kubernetes
+

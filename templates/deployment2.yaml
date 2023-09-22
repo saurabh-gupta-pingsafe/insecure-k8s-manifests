@@ -1,0 +1,28 @@
+# Deployment Containers CPU Limit Not Set
+# Deployment Containers CPU Request Not Specified
+# Deployment Has Daemon Socket Mounted Inside Containers
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: vulnerable-deployment2
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-deployment2
+  template:
+    metadata:
+      labels:
+        app: vulnerable-deployment2
+    spec:
+      containers:
+      - name: vuln-container2
+        image: nginx
+        volumeMounts:
+        - name: daemon-socket
+          mountPath: /var/run/docker.sock
+      volumes:
+      - name: daemon-socket
+        hostPath:
+          path: /var/run/docker.sock
+

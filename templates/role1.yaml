@@ -1,0 +1,14 @@
+# Role Gives Excessive Permissions To ConfigMaps
+# Roles Excessive Access To Delete Pod'S Logs
+# Roles Have Access To Secrets
+# Overly Permissive Access To Create Or Update Pods
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  namespace: default
+  name: vulnerable-role1
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "pods/log", "secrets", "pods"]
+  verbs: ["get", "list", "create", "update", "delete"]
+

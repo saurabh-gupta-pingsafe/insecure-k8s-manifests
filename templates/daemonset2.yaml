@@ -1,0 +1,27 @@
+# DaemonSet Containers CPU Limit Not Set
+# DaemonSet Containers CPU Request Not Specified
+# DaemonSet Has Socket Mounted Inside Containers For Pod
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vulnerable-daemonset2
+spec:
+  selector:
+    matchLabels:
+      app: vulnerable-daemonset2
+  template:
+    metadata:
+      labels:
+        app: vulnerable-daemonset2
+    spec:
+      containers:
+      - name: vuln-container2
+        image: nginx
+        volumeMounts:
+        - name: daemon-socket
+          mountPath: /var/run/docker.sock
+      volumes:
+      - name: daemon-socket
+        hostPath:
+          path: /var/run/docker.sock
+

@@ -1,0 +1,13 @@
+# Cluster Role Gives Excessive Permissions To ConfigMaps
+# Cluster Roles Has Permissions To Delete Pod's Logs
+# Cluster Roles Have Access To Secrets
+# Overly Permissive Access To Create Or Update Pods in Cluster Roles
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: vulnerable-clusterrole1
+rules:
+- apiGroups: [""]
+  resources: ["configmaps", "pods/log", "secrets", "pods"]
+  verbs: ["get", "list", "create", "update", "delete"]
+

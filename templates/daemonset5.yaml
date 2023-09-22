@@ -1,0 +1,38 @@
+# DaemonSet Containers Are Running With NET_RAW Capability
+# DaemonSet Sysctls Has Been Given Overly Permissive Permissions
+# DaemonSet Proc Mount Not Set Default
+# DaemonSet's Container Root Filesystem Is Not ReadOnly
+# DaemonSet Run As Root User
+# DaemonSet Containers Run With HostIPC Flag
+# DaemonSet Containers Run With HostPID Flag
+# DaemonSet Containers Are Running With Privileged Flag
+# DaemonSet Containers With SYS_ADMIN Capability Attached
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: vulnerable-daemonset5
+spec:
+  selector:
+    matchLabels:
+      app: vulnerable-daemonset5
+  template:
+    metadata:
+      labels:
+        app: vulnerable-daemonset5
+    spec:
+      securityContext:
+        fsGroup: 1000
+        runAsUser: 0
+      containers:
+      - name: vuln-container5
+        image: nginx
+        securityContext:
+          runAsUser: 0
+          privileged: true
+          capabilities:
+            add:
+            - SYS_ADMIN
+            - NET_RAW
+      hostIPC: true
+      hostPID: true
+

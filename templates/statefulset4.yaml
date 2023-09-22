@@ -1,0 +1,29 @@
+# StatefulSet Containers Are Running With NET_RAW Capability
+# StatefulSet Sysctls Has Been Given Overly Permissive Permissions
+# StatefulSet Proc Mount Not Set Default
+# StatefulSet Container Root Filesystem Is Not ReadOnly
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vulnerable-ss4
+spec:
+  serviceName: "vuln-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-ss4
+  template:
+    metadata:
+      labels:
+        app: vulnerable-ss4
+    spec:
+      containers:
+      - name: vuln-container4
+        image: nginx
+        securityContext:
+          readOnlyRootFilesystem: false
+          capabilities:
+            add:
+            - NET_RAW
+      hostIPC: true
+

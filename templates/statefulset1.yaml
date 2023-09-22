@@ -1,0 +1,34 @@
+# StatefulSet Default AppArmor Profile Not Set
+# StatefulSet Pod automountServiceAccountToken Not Set To False
+# StatefulSet With Containers CPU Limit Not Set
+# StatefulSet With Containers CPU Request Not Specified
+# StatefulSet Has Daemon Socket Mounted Inside Containers
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: vulnerable-ss1
+spec:
+  serviceName: "vuln-service"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: vulnerable-ss1
+  template:
+    metadata:
+      labels:
+        app: vulnerable-ss1
+    spec:
+      automountServiceAccountToken: true
+      containers:
+      - name: vuln-container1
+        image: nginx
+        securityContext:
+          allowPrivilegeEscalation: true
+        volumeMounts:
+        - name: docker-socket
+          mountPath: /var/run/docker.sock
+      volumes:
+      - name: docker-socket
+        hostPath:
+          path: /var/run/docker.sock
+
